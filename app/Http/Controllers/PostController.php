@@ -114,6 +114,6 @@ class PostController extends Controller
     {
         $post->destroy($post->id);
         Storage::disk('public')->delete($post->image);
-        return back();
+        return back()->with('status', 'Post successfully deleted');
     }
 }

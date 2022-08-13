@@ -67,7 +67,16 @@
                             <h3>Projects</h3>
                         @else
                             <h3>Projects not found</h3>
+                            @auth
+                                <a href="{{ route('home') }}" class="btn btn-success">Add new project</a>
+                            @endauth
                         @endif
+
+                        @if(session('status'))
+                                <div class="alert alert-success mt-5" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
                     </div>
 
                     @foreach($posts as $post)
@@ -84,6 +93,7 @@
                                 <p class="card-text"><small class="text-muted">Created at: {{ date('d/m/Y H:i', strtotime($post->created_at)) }}</small></p>
                                 <form method="post" action="{{ route('post.destroy', $post->id) }}">
                                     @csrf
+                                    @method('DELETE')
                                     @auth
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                         <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a>
