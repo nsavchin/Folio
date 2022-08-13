@@ -24,3 +24,4 @@ Route::resource('/post', PostController::class);
 Auth::routes(['register' => false]);
 Route::get('/manager', [HomeController::class, 'index'])->name('home');
 Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+Route::post('/settings/user/update', [SettingsController::class, 'userUpdate'])->name('settings.user.update');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GeneralSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
@@ -14,6 +15,22 @@ class SettingsController extends Controller
     }
 
 
+    public function userUpdate(Request $request)
+    {
+        $request->validate([
+            'name' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+        ]);
+        $user = auth()->user();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return back()->with('success', 'Settings successfully updated!');
+    }
     public function update(Request $request, GeneralSettings $setting)
     {
         $request->validate(

@@ -20,7 +20,7 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
-                                Admin profile
+                                Edit profile
                             </button>
                         </li>
                     </ul>
@@ -96,7 +96,24 @@
                             </form>
 
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <form method="post" action="{{ route('settings.user.update') }}">
+                                @csrf
+                                <p class="text-center m-3">{{ __('Edit admin profile:') }} {{ auth()->user()->name  }}</p>
+                                <label for="name" class="form-label mt-3">Username</label>
+                                <input value="{{ auth()->user()->name  }}" type="text" name="name" id="name" class="form-control" placeholder="Enter username" aria-describedby="title">
+
+                                <label for="email" class="form-label mt-3">User email</label>
+                                <input value="{{ auth()->user()->email  }}" type="email" name="email" id="email" class="form-control" placeholder="Email" aria-describedby="passwordHelpBlock">
+
+                                <label for="password" class="form-label mt-3">New password</label>
+                                <input placeholder="********" class="form-control" name="password" type="password" id="password">
+                                <label for="password_confirmation" class="form-label mt-3">Password confirm</label>
+                                <input placeholder="********" class="form-control" name="password_confirmation" type="password" id="password_confirmation">
+
+                                <button type="submit" class="btn btn-primary mt-3">Add project</button>
+                            </form>
+                        </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             <form method="post" action="{{ route('post.store') }}" enctype="multipart/form-data">
                                 @csrf
