@@ -14,6 +14,7 @@ git clone https://github.com/nsavchin/Folio.git
 Install composer & npm packages
 
 <pre>
+cd Folio
 composer install
 npm install
 npm run production
