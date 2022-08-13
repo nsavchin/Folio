@@ -3,18 +3,15 @@
 @section('content')
     <section style="background-color: #eee;">
         <div class="container py-5">
-
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                                  class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3">John Smith</h5>
-                            <p class="text-muted mb-1">Full Stack Developer</p>
-                            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                            <h5 class="my-3">{{ getSetting('portfolio_name') }}</h5>
+                            <p class="text-muted mb-1">{{ getSetting('portfolio_work') }}</p>
                             <div class="d-flex justify-content-center mb-2">
-                                <button type="button" class="btn btn-primary">Follow</button>
                                 <button type="button" class="btn btn-outline-primary ms-1">Message</button>
                             </div>
                         </div>
@@ -24,20 +21,8 @@
                             <ul class="list-group list-group-flush rounded-3">
 
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                                    <p class="mb-0">mdbootstrap</p>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                                    <p class="mb-0">@mdbootstrap</p>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                                    <p class="mb-0">mdbootstrap</p>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                    <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                                    <p class="mb-0">mdbootstrap</p>
+                                    <i class="fab fa-github fa-lg" style="color: #333333;"></i> {{ getSetting('github_url') }}
+                                    <p class="mb-0"><a href="https://github.com/{{ getSetting('github_url') }}">View</a></p>
                                 </li>
                             </ul>
                         </div>
@@ -51,7 +36,7 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">example@example.com</p>
+                                    <p class="text-muted mb-0">{{ getSetting('portfolio_email') }}</p>
                                 </div>
                             </div>
 
@@ -59,10 +44,10 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Address</p>
+                                    <p class="mb-0">About me</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                    <p class="text-muted mb-0">{{ getSetting('portfolio_about') }}</p>
                                 </div>
                             </div>
 
@@ -93,11 +78,10 @@
                                 <p class="card-text"><small class="text-muted">Created at: {{ date('d/m/Y H:i', strtotime($post->created_at)) }}</small></p>
                                 <form method="post" action="{{ route('post.destroy', $post->id) }}">
                                     @csrf
-                                    @method('DELETE')
                                     @auth
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a>
-                                        @endauth
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success">Edit</a>
+                                    @endauth
                                 </form>
 
                             </div>
@@ -105,8 +89,8 @@
                         </div>
                     @endforeach
 
-                    </div>
                 </div>
             </div>
+        </div>
     </section>
 @endsection

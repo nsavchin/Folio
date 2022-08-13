@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +21,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [IndexController::class, 'index']);
 Route::resource('/post', PostController::class);
 
-Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes(['register' => false]);
+Route::get('/manager', [HomeController::class, 'index'])->name('home');
+Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');

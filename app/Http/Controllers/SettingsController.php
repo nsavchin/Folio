@@ -2,84 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
+use App\Models\GeneralSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(Request $request, GeneralSettings $setting)
     {
-        //
-    }
+        $request->validate(
+            [
+                'favicon' => 'image|nullable',
+                'avatar' => 'image|nullable',
+                'site_name' => 'max:300',
+                'portfolio_name' => 'max:300',
+                'portfolio_email' => 'nullable|max:300',
+                'portfolio_work' => 'min:1|max:300',
+                'portfolio_about' => 'max:2000',
+                'github_url' => 'max:500',
+            ]
+        );
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
+        if ($request->hasFile('favicon')){
+            Storage::delete(getSetting('favicon'));
+            $favicon = $request->file('favicon')->store('images', 'public');
+            $setting->favicon = $request->$favicon;
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        //
-    }
+        if ($request->hasFile('avatar')){
+            Storage::delete(getSetting('avatar'));
+            $avatar = $request->file('avatar')->store('images', 'public');
+            $setting->favicon = $request->$avatar;
+        }
+        $setting->site_name = $request->site_name;
+        $setting->portfolio_name = $request->portfolio_name;
+        $setting->portfolio_email = $request->portfolio_email;
+        $setting->portfolio_work = $request->portfolio_work;
+        $setting->portfolio_about = $request->portfolio_about;
+        $setting->github_url = $request->github_url;
+        $setting->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Setting $setting)
-    {
-        //
-    }
+        return back()->with('success', 'Settings successfully updated!');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Setting $setting)
-    {
-        //
     }
 }
