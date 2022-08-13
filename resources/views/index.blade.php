@@ -73,7 +73,13 @@
                     @foreach($posts as $post)
                         <div class="card mb-4">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">{{ $post->title }}</h5>
+                                <h5 class="card-title fw-bold">
+                                    @isset($post->url)
+                                        <a href=" {{ $post->url }}"> {{ $post->title }}</a>
+                                    @else
+                                        {{ $post->title }}
+                                    @endisset
+                                </h5>
                                 <p class="card-text">{{ $post->description }}</p>
                                 <p class="card-text"><small class="text-muted">Created at: {{ date('d/m/Y H:i', strtotime($post->created_at)) }}</small></p>
                                 <form method="post" action="{{ route('post.destroy', $post->id) }}">

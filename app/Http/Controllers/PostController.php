@@ -48,9 +48,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $image = $request->file('image')->store('images', 'public');
-        $validate = $request->validate([
+        $request->validate([
             'title' => 'required|max:100',
-            'url' => 'required|max:255',
+            'url' => 'max:255',
             'description' => 'required|max:255',
             'image' => 'required',
         ]);
@@ -87,12 +87,13 @@ class PostController extends Controller
 
         $validate = $request->validate([
             'title' => 'required|max:100',
-            'url' => 'required|max:255',
+            'url' => 'max:255',
             'description' => 'required|max:255',
         ]);
 
         $post->title = $request->title;
         $post->description = $request->description;
+        $post->url = $request->url;
 
         if($request->hasFile('image')){
             Storage::disk('public')->delete($post->image);
